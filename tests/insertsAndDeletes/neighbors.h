@@ -30,6 +30,7 @@
 #include "../utils/types.h"
 #include "../utils/graph.h"
 #include "../utils/aspen_graph.h"
+#include "../utils/aspen_flat_graph.h"
 #include "../../algorithms/vamana/index.h"
 #include "parlay/parallel.h"
 #include "parlay/primitives.h"

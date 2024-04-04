@@ -58,7 +58,7 @@ struct PointRange{
 
   PointRange() : values(std::shared_ptr<T[]>(nullptr, std::free)) {n=0;}
 
-  PointRange(char* filename) : values(std::shared_ptr<T[]>(nullptr, std::free)){
+  PointRange(char* filename, bool doubl = false) : values(std::shared_ptr<T[]>(nullptr, std::free)){
       if(filename == NULL) {
         n = 0;
         dims = 0;
@@ -77,7 +77,7 @@ struct PointRange{
       std::cout << "Detected " << num_points << " points with dimension " << d << std::endl;
       aligned_dims =  dim_round_up(dims, sizeof(T));
       if(aligned_dims != dims) std::cout << "Aligning dimension to " << aligned_dims << std::endl;
-      values = std::shared_ptr<T[]>((T*) aligned_alloc(64, n*aligned_dims*sizeof(T)), std::free);
+      values = std::shared_ptr<T[]>((T*) aligned_alloc(64, ((doubl)?2:1)*n*aligned_dims*sizeof(T)), std::free);
       size_t BLOCK_SIZE = 1000000;
       size_t index = 0;
       while(index < n){
@@ -100,6 +100,11 @@ struct PointRange{
   
   Point operator [] (long i) {
     return Point(values.get()+i*aligned_dims, dims, aligned_dims, i);
+  }
+
+  void add_point(Point p){
+    std::memmove(values.get() + n*aligned_dims, p.get_values(), dims*sizeof(T));
+    n++;
   }
 
 private:

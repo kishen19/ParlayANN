@@ -100,6 +100,15 @@ struct Euclidian_Point {
     return values == q.values;
   }
 
+  const T* get_values() const {return values;}
+
+  Euclidian_Point<T> centroid(const Euclidian_Point<T>& q, long id) {
+    T* new_values = (T*) malloc(d * sizeof(T));
+    for (int i = 0; i < d; i++) {
+      new_values[i] = (values[i] + q.values[i]) / 2;
+    }
+    return Euclidian_Point<T>(new_values, d, aligned_d, id);
+  }
 
 private:
   const T* values;

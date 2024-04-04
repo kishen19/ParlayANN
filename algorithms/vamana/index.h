@@ -225,7 +225,8 @@ struct knn_index {
 
   void consolidate(GraphType &Graph, PR &Points){
     GraphI G = Graph.Get_Graph();
-    consolidate_deletes(G, Points);
+    // consolidate_deletes(G, Points);
+    consolidate_deletes_simple(G, Points);
     check_deletes_correct(G, Points);
     Graph.Update_Graph(std::move(G));
   }
