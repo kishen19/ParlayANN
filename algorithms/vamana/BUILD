@@ -56,7 +56,7 @@ cc_library(
         "//algorithms/utils:stats",
         "//algorithms/utils:types",
         "//algorithms/utils:point_range",
-        "//algorithms/utils:euclidean_point",
+        "//algorithms/utils:euclidian_point",
         "//algorithms/utils:mips_point",
     ],
 )

@@ -116,11 +116,42 @@ struct PointRange{
       }
   }
 
+  template <typename Seq>
+  PointRange(const Seq& data, unsigned d)
+      : values(std::shared_ptr<byte[]>(nullptr, std::free)),
+        n(data.size()) {
+
+    params = parameters(d);
+    std::cout << "Data: detected " << n << " points with dimension " << d << std::endl;
+    int num_bytes = params.num_bytes();
+    aligned_bytes =  64 * ((num_bytes - 1)/64 + 1);
+    if (aligned_bytes != num_bytes)
+      std::cout << "Aligning bytes to " << aligned_bytes << std::endl;
+    
+    long total_bytes = n * aligned_bytes;
+    byte* ptr = (byte*) aligned_alloc(1l << 21, total_bytes);
+    madvise(ptr, total_bytes, MADV_HUGEPAGE);
+    values = std::shared_ptr<byte[]>(ptr, std::free);
+
+    parlay::parallel_for(0, n, [&](size_t i) {
+      byte* val = values.get() + i * aligned_bytes;
+      Point::translate_point(val, data[i], params);
+    });
+  }
+
   size_t size() const { return n; }
 
   unsigned int get_dims() const { return params.dims; }
   
   Point operator [] (long i) const {
+    if (i > n) {
+      std::cout << "ERROR: point index out of range: " << i << " from range " << n << ", " << std::endl;
+      abort();
+    }
+    return Point(values.get()+i*aligned_bytes, i, params);
+  }
+
+  Point operator [] (long i) {
     if (i > n) {
       std::cout << "ERROR: point index out of range: " << i << " from range " << n << ", " << std::endl;
       abort();
