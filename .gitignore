@@ -1,8 +1,9 @@
-bazel-bin/
-bazel-out/
+.vscode/
+bazel-testlogs
+bazel-bin
+bazel-out
 bazel-testlogs/
 bazel-bin/
 bazel-out/
-bazel-testlogs/
 
-bazel-ParlayANN/
+bazel-ParlayANN
