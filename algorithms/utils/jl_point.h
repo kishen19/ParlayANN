@@ -41,6 +41,7 @@ struct Mips_JL_Point {
   static bool is_metric() {return false;}
   
   T operator [] (long j) const {return pt[j];}
+  T& operator[](long i) {return pt[i];}
 
   float distance(const Mips_JL_Point &q) const {
     return pt.distance(q.pt);

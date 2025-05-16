@@ -81,6 +81,7 @@ struct Mips_Point {
   static distanceType d_min() {return -std::numeric_limits<float>::max();}
   static bool is_metric() {return false;}
   T operator [](long i) const {return *(values + i);}
+  T& operator[](long i) {return *(values + i);}
 
   float distance(const Mips_Point<T>& x) const {
     return mips_distance(this->values, x.values, params.dims);
