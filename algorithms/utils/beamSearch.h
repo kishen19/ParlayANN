@@ -519,8 +519,8 @@ std::pair<parlay::sequence<std::pair<indexType, typename Point::distanceType>>,
                     const QPointRange &Q_Base_Points,
                     indexType starting_point,
                     const QueryParams &QP) {
-  using dtype = typename Point::distanceType;
-  using id_dist = std::pair<indexType, dtype>;
+  //using dtype = typename Point::distanceType;
+  //using id_dist = std::pair<indexType, dtype>;
   parlay::sequence<indexType> starting_points = {starting_point};
 
   bool use_rerank = (Base_Points.params.num_bytes() != Q_Base_Points.params.num_bytes());

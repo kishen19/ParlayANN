@@ -194,7 +194,7 @@ auto parse_result(parlay::sequence<res> results,
                   parlay::sequence<float> buckets) {
   parlay::sequence<float> ret_buckets;
   parlay::sequence<res> retval;
-  for (int i = 0; i < buckets.size(); i++) {
+  for (size_t i = 0; i < buckets.size(); i++) {
     float b = buckets[i];
     auto pred = [&](res R) { return R.recall >= b; };
     parlay::sequence<res> candidates;

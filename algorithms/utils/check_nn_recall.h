@@ -150,7 +150,7 @@ void write_to_csv(std::string csv_filename, parlay::sequence<float> buckets,
       << "k"
       << "Q"
       << "cut" << endrow;
-  for (int i = 0; i < results.size(); i++) {
+  for (size_t i = 0; i < results.size(); i++) {
     nn_result N = results[i];
     csv << N.num_queries << buckets[i] << N.recall << N.QPS << N.avg_cmps
         << N.tail_cmps << N.avg_visited << N.tail_visited << N.k << N.beamQ

@@ -42,7 +42,7 @@ namespace parlayANN {
 
   float mips_distance(const uint8_t *p, const uint8_t *q, unsigned d) {
     int result = 0;
-    for (int i = 0; i < d; i++) {
+    for (size_t i = 0; i < d; i++) {
       result += ((int32_t)q[i]) * ((int32_t)p[i]);
     }
     return -((float)result);
@@ -50,7 +50,7 @@ namespace parlayANN {
 
   float mips_distance(const int8_t *p, const int8_t *q, unsigned d) {
     int result = 0;
-    for (int i = 0; i < d; i++) {
+    for (size_t i = 0; i < d; i++) {
       result += ((int32_t)q[i]) * ((int32_t)p[i]);
     }
     return -((float)result);
@@ -58,7 +58,7 @@ namespace parlayANN {
 
   float mips_distance(const float *p, const float *q, unsigned d) {
     float result = 0;
-    for (int i = 0; i < d; i++) {
+    for (size_t i = 0; i < d; i++) {
       result += (q[i]) * (p[i]);
     }
     return -result;
