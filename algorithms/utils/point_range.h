@@ -116,8 +116,8 @@ struct PointRange{
       }
   }
 
-  template <typename Seq>
-  PointRange(const Seq& data, unsigned d)
+  template <typename T>
+  PointRange(const parlay::sequence<T>& data, unsigned d)
       : values(std::shared_ptr<byte[]>(nullptr, std::free)),
         n(data.size()) {
 
