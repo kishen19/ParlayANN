@@ -37,7 +37,7 @@ cc_library(
 )
 
 cc_library(
-    name = "euclidean_point",
+    name = "euclidian_point",
     hdrs = ["euclidian_point.h"],
     deps = [
         "@parlaylib//parlay:parallel",
