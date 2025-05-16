@@ -144,18 +144,20 @@ struct PointRange{
   unsigned int get_dims() const { return params.dims; }
   
   Point operator [] (long i) const {
-    if (i > n) {
-      std::cout << "ERROR: point index out of range: " << i << " from range " << n << ", " << std::endl;
-      abort();
-    }
+    // Note: commented out bounds checking for faster execution
+    // if (i > n) {
+    //   std::cout << "ERROR: point index out of range: " << i << " from range " << n << ", " << std::endl;
+    //   abort();
+    // }
     return Point(values.get()+i*aligned_bytes, i, params);
   }
 
   Point operator [] (long i) {
-    if (i > n) {
-      std::cout << "ERROR: point index out of range: " << i << " from range " << n << ", " << std::endl;
-      abort();
-    }
+    // Note: commented out bounds checking for faster execution
+    // if (i > n) {
+    //   std::cout << "ERROR: point index out of range: " << i << " from range " << n << ", " << std::endl;
+    //   abort();
+    // }
     return Point(values.get()+i*aligned_bytes, i, params);
   }
 
