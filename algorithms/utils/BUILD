@@ -1,7 +1,8 @@
 # ANNS utilility.
 
-package(default_visibility = ["//algorithms:__subpackages__"])
-
+package(
+    default_visibility = ["//visibility:public"],
+)
 
 cc_library(
     name = "csvfile",
