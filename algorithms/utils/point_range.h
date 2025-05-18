@@ -138,6 +138,15 @@ struct PointRange{
     });
   }
 
+  PointRange(size_t n, size_t k) : params(k)  {
+    int num_bytes = params.num_bytes();
+    aligned_bytes = (num_bytes <= 32) ? 32 : 64 * ((num_bytes - 1)/64 + 1);
+    long total_bytes = n * aligned_bytes;
+    byte* ptr = (byte*) aligned_alloc(1l << 21, total_bytes);
+    madvise(ptr, total_bytes, MADV_HUGEPAGE);
+    values = std::shared_ptr<byte[]>(ptr, std::free);
+  }
+
   size_t size() const { return n; }
 
   unsigned int get_dims() const { return params.dims; }
