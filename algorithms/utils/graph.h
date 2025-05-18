@@ -72,13 +72,13 @@ struct edgeRange{
 
   template<typename rangeType>
   void update_neighbors(const rangeType& r){
-    if (r.size() > maxDeg) {
+    if ((long)r.size() > maxDeg) {
       std::cout << "ERROR in update_neighbors: cannot exceed max degree "
                 << maxDeg << std::endl;
       abort();
     }
     edges[0] = r.size();
-    for (int i = 0; i < r.size(); i++) {
+    for (size_t i = 0; i < r.size(); i++) {
       edges[i+1] = r[i];
     }
   }
@@ -244,8 +244,8 @@ struct Graph{
   ~Graph(){}
 
 private:
-  size_t n;
   long maxDeg;
+  size_t n;
   std::shared_ptr<indexType[]> graph;
 };
 

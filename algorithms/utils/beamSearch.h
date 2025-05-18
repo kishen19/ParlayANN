@@ -72,7 +72,7 @@ filtered_beam_search(const GT &G,
   // The subset of the frontier that has not been visited
   // Use the first of these to pick next vertex to visit.
   std::vector<id_dist> unvisited_frontier(beamSize);
-  for (int i=0; i < frontier.size(); i++)
+  for (size_t i=0; i < frontier.size(); i++)
     unvisited_frontier[i] = frontier[i];
 
   // maintains sorted set of visited vertices (id-distance pairs)
@@ -114,7 +114,7 @@ filtered_beam_search(const GT &G,
     auto position = std::upper_bound(visited.begin(), visited.end(), current, less);
     visited.insert(position, current);
     num_visited++;
-    bool frontier_full = frontier.size() == beamSize;
+    bool frontier_full = frontier.size() == (size_t)beamSize;
 
     // if using filtering based on lower quality distances measure, then maintain the average
     // of low quality distance to the last point in the frontier (if frontier is full)
@@ -123,7 +123,7 @@ filtered_beam_search(const GT &G,
       indexType id = frontier.back().first;
       if (filter_threshold_count == 0 || filter_id != id) {
         filter_tail_mean = 0.0;
-        for (int i = frontier.size() - width; i < frontier.size(); i ++) 
+        for (size_t i = frontier.size() - width; i < frontier.size(); i ++) 
           filter_tail_mean += Q_Points[frontier[i].first].distance(qp);
         filter_tail_mean /= width;
         filter_id = id;
@@ -172,7 +172,7 @@ filtered_beam_search(const GT &G,
     // This iproves performance for higher accuracies (e.g. beam sizes of 100+)
     if (candidates.size() == 0 || 
         (QP.limit >= 2 * beamSize &&
-         candidates.size() < beamSize/8 &&
+         candidates.size() < (size_t)beamSize/8 &&
          offset + 1 < remain)) {
       offset++;
       continue;

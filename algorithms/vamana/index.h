@@ -288,7 +288,7 @@ struct knn_index {
       // otherwise, use robustPrune on the vertex with user-specified alpha
       parlay::parallel_for(0, grouped_by.size(), [&](size_t j) {
         auto &[index, candidates] = grouped_by[j];
-	size_t newsize = candidates.size() + G[index].size();
+	      long newsize = candidates.size() + G[index].size();
         if (newsize <= BP.R) {
 	  add_neighbors_without_repeats(G[index], candidates);
 	  G[index].update_neighbors(candidates);
