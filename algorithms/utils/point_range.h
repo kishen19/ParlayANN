@@ -51,25 +51,25 @@ struct PointRange{
 
   PointRange() : values(std::shared_ptr<byte[]>(nullptr, std::free)), n(0) {}
 
-  template <typename PR>
-  PointRange(const PR& pr, const parameters& p) : params(p)  {
-    n = pr.size();
-    int num_bytes = p.num_bytes();
-    aligned_bytes = (num_bytes <= 32) ? 32 : 64 * ((num_bytes - 1)/64 + 1);
-    long total_bytes = n * aligned_bytes;
-    byte* ptr = (byte*) aligned_alloc(1l << 21, total_bytes);
-    madvise(ptr, total_bytes, MADV_HUGEPAGE);
-    values = std::shared_ptr<byte[]>(ptr, std::free);
-    byte* vptr = values.get();
-    parlay::parallel_for(0, n, [&] (long i) {
-      Point::translate_point(vptr + i * aligned_bytes, pr[i], params);});
-  }
+  // template <typename PR>
+  // PointRange(const PR& pr, const parameters& p) : params(p)  {
+  //   n = pr.size();
+  //   int num_bytes = p.num_bytes();
+  //   aligned_bytes = (num_bytes <= 32) ? 32 : 64 * ((num_bytes - 1)/64 + 1);
+  //   long total_bytes = n * aligned_bytes;
+  //   byte* ptr = (byte*) aligned_alloc(1l << 21, total_bytes);
+  //   madvise(ptr, total_bytes, MADV_HUGEPAGE);
+  //   values = std::shared_ptr<byte[]>(ptr, std::free);
+  //   byte* vptr = values.get();
+  //   parlay::parallel_for(0, n, [&] (long i) {
+  //     Point::translate_point(vptr + i * aligned_bytes, pr[i], params);});
+  // }
 
-  template <typename PR>
-  PointRange (PR& pr) : PointRange(pr, Point::generate_parameters(pr)) { }
+  // template <typename PR>
+  // PointRange (PR& pr) : PointRange(pr, Point::generate_parameters(pr)) { }
 
-  template <typename PR>
-  PointRange (PR& pr, int dims) : PointRange(pr, Point::generate_parameters(dims)) { }
+  // template <typename PR>
+  // PointRange (PR& pr, int dims) : PointRange(pr, Point::generate_parameters(dims)) { }
 
   PointRange(char* filename) : values(std::shared_ptr<byte[]>(nullptr, std::free)){
       if(filename == NULL) {
@@ -145,58 +145,6 @@ struct PointRange{
     byte* ptr = (byte*) aligned_alloc(1l << 21, total_bytes);
     madvise(ptr, total_bytes, MADV_HUGEPAGE);
     values = std::shared_ptr<byte[]>(ptr, std::free);
-  }
-
-  // Copy constructor
-  PointRange(const PointRange& other) 
-    : params(other.params), n(other.n), aligned_bytes(other.aligned_bytes) {
-    long total_bytes = n * aligned_bytes;
-    byte* ptr = (byte*) aligned_alloc(1l << 21, total_bytes);
-    madvise(ptr, total_bytes, MADV_HUGEPAGE);
-    values = std::shared_ptr<byte[]>(ptr, std::free);
-    // Copy the data
-    std::memcpy(values.get(), other.values.get(), total_bytes);
-  }
-
-  // Move constructor
-  PointRange(PointRange&& other) noexcept
-    : params(std::move(other.params)),
-      values(std::move(other.values)),
-      aligned_bytes(other.aligned_bytes),
-      n(other.n) {
-    other.n = 0;
-    other.aligned_bytes = 0;
-  }
-
-  // Copy assignment operator
-  PointRange& operator=(const PointRange& other) {
-    if (this != &other) {
-      params = other.params;
-      n = other.n;
-      aligned_bytes = other.aligned_bytes;
-      
-      long total_bytes = n * aligned_bytes;
-      byte* ptr = (byte*) aligned_alloc(1l << 21, total_bytes);
-      madvise(ptr, total_bytes, MADV_HUGEPAGE);
-      values = std::shared_ptr<byte[]>(ptr, std::free);
-      // Copy the data
-      std::memcpy(values.get(), other.values.get(), total_bytes);
-    }
-    return *this;
-  }
-
-  // Move assignment operator
-  PointRange& operator=(PointRange&& other) noexcept {
-    if (this != &other) {
-      params = std::move(other.params);
-      values = std::move(other.values);
-      aligned_bytes = other.aligned_bytes;
-      n = other.n;
-      
-      other.n = 0;
-      other.aligned_bytes = 0;
-    }
-    return *this;
   }
 
   size_t size() const { return n; }
