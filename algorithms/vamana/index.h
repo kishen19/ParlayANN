@@ -92,11 +92,11 @@ struct knn_index {
 
     size_t candidate_idx = 0;
 
-    while (new_nbhs.size() < BP.R && candidate_idx < candidates.size()) {
+    while ((long)new_nbhs.size() < BP.R && candidate_idx < candidates.size()) {
       // Don't need to do modifications.
       int p_star = candidates[candidate_idx].first;
       candidate_idx++;
-      if (p_star == p || p_star == -1) {
+      if (p_star == (long)p || p_star == -1) {
         continue;
       }
 
@@ -141,7 +141,7 @@ struct knn_index {
   void add_neighbors_without_repeats(const rangeType1 &ngh, rangeType2& candidates) {
     std::unordered_set<indexType> a;
     for (auto c : candidates) a.insert(c);
-    for (int i=0; i < ngh.size(); i++)
+    for (size_t i=0; i < ngh.size(); i++)
       if (a.count(ngh[i]) == 0) candidates.push_back(ngh[i]);
   }
 

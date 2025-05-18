@@ -138,7 +138,7 @@ struct Euclidian_Point {
   Euclidian_Point() : values(nullptr), id_(-1), params(0) {}
 
   Euclidian_Point(byte* values, long id, parameters params)
-    : values((T*) values), params(params), id_(id) {}
+    : params(params), values((T*) values), id_(id) {}
 
   // template <typename Point>
   // Euclidian_Point(const Point& p, const parameters& params) : id_(-1), params(params) {

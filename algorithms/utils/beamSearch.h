@@ -98,7 +98,7 @@ filtered_beam_search(const GT &G,
   dtype filter_threshold_sum = 0.0;
   int filter_threshold_count = 0;
   dtype filter_threshold;
-  indexType filter_id;
+  indexType filter_id = 0;
   indexType filter_tail_mean = 0;
 
   // offset into the unvisited_frontier vector (unvisited_frontier[offset] is the next to visit)
