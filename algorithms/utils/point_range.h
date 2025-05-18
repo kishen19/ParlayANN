@@ -168,6 +168,37 @@ struct PointRange{
     other.aligned_bytes = 0;
   }
 
+  // Copy assignment operator
+  PointRange& operator=(const PointRange& other) {
+    if (this != &other) {
+      params = other.params;
+      n = other.n;
+      aligned_bytes = other.aligned_bytes;
+      
+      long total_bytes = n * aligned_bytes;
+      byte* ptr = (byte*) aligned_alloc(1l << 21, total_bytes);
+      madvise(ptr, total_bytes, MADV_HUGEPAGE);
+      values = std::shared_ptr<byte[]>(ptr, std::free);
+      // Copy the data
+      std::memcpy(values.get(), other.values.get(), total_bytes);
+    }
+    return *this;
+  }
+
+  // Move assignment operator
+  PointRange& operator=(PointRange&& other) noexcept {
+    if (this != &other) {
+      params = std::move(other.params);
+      values = std::move(other.values);
+      aligned_bytes = other.aligned_bytes;
+      n = other.n;
+      
+      other.n = 0;
+      other.aligned_bytes = 0;
+    }
+    return *this;
+  }
+
   size_t size() const { return n; }
 
   unsigned int get_dims() const { return params.dims; }
