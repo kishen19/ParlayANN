@@ -138,7 +138,7 @@ struct PointRange{
     });
   }
 
-  PointRange(size_t n, size_t k) : params(k)  {
+  PointRange(size_t _n, size_t dims) : params(dims), n(_n)  {
     int num_bytes = params.num_bytes();
     aligned_bytes = (num_bytes <= 32) ? 32 : 64 * ((num_bytes - 1)/64 + 1);
     long total_bytes = n * aligned_bytes;
