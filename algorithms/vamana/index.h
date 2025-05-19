@@ -149,7 +149,7 @@ struct knn_index {
 
   void build_index(GraphI &G, PR &Points, QPR &QPoints,
                    stats<indexType> &BuildStats, bool sort_neighbors = true){
-    std::cout << "Building graph..." << std::endl;
+    // std::cout << "Building graph..." << std::endl;
     set_start();
     parlay::sequence<indexType> inserts = parlay::tabulate(Points.size(), [&] (size_t i){
       return static_cast<indexType>(i);});
@@ -169,7 +169,7 @@ struct knn_index {
     }
 
     // last pass uses alpha
-    std::cout << "number of passes = " << BP.num_passes << std::endl;
+    // std::cout << "number of passes = " << BP.num_passes << std::endl;
     for (int i=0; i < BP.num_passes; i++) {
       if (i == BP.num_passes - 1)
         batch_insert(inserts, G, Points, QPoints, BuildStats, BP.alpha, true, 2, .02);
