@@ -266,9 +266,9 @@ struct knn_index {
       }
       inc += 1;
     }
-    t_beam.total();
-    t_bidirect.total();
-    t_prune.total();
+    // t_beam.total();
+    // t_bidirect.total();
+    // t_prune.total();
   }
 
 };

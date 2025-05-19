@@ -304,8 +304,8 @@ struct knn_index {
         auto ind = frac * n;
         if (floor <= ind && ceiling > ind) {
           frac += progress_inc;
-          std::cout << "Pass " << 100 * frac << "% complete"
-                    << std::endl;
+          // std::cout << "Pass " << 100 * frac << "% complete"
+          //           << std::endl;
         }
       }
       inc += 1;
