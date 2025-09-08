@@ -31,7 +31,7 @@
 #include "parlay/internal/file_map.h"
 
 #include "types.h"
-//#include "NSGDist.h"
+#include "NSGDist.h"
 // #include "common/time_loop.h"
 
 #include <fcntl.h>
@@ -81,12 +81,12 @@ float euclidian_distance(const int8_t *p, const int8_t *q, unsigned d) {
 }
 
 float euclidian_distance(const float *p, const float *q, unsigned d) {
-  //efanna2e::DistanceL2 distfunc;
-  //return distfunc.compare(p, q, d);
-  float result = 0.0;
-  for (size_t i = 0; i < d; i++)
-    result += (q[i] - p[i]) * (q[i] - p[i]);
-  return (float)result;
+  efanna2e::DistanceL2 distfunc;
+  return distfunc.compare(p, q, d);
+  // float result = 0.0;
+  // for (size_t i = 0; i < d; i++)
+  //   result += (q[i] - p[i]) * (q[i] - p[i]);
+  // return (float)result;
 }
 
 template<typename T_, long range=(1l << sizeof(T_)*8) - 1>
@@ -178,6 +178,27 @@ struct Euclidian_Point {
 
   bool same_as(const Euclidian_Point& q) const {
     return values == q.values;
+  }
+
+  Euclidian_Point& operator=(const Euclidian_Point& rhs) {
+    const T* src = reinterpret_cast<const T*>(rhs.values);
+    for (int i = 0; i < params.dims; ++i)
+      values[i] = src[i];
+    return *this;
+  }
+
+  Euclidian_Point(const Euclidian_Point& rhs)
+    : params(rhs.params) {
+  values = static_cast<T*>(std::aligned_alloc(alignof(T), params.num_bytes()));
+
+  if (!values) {
+    std::cerr << "Memory allocation failed in Euclidian_Point copy constructor." << std::endl;
+    std::abort();
+  }
+
+  const T* src = reinterpret_cast<const T*>(rhs.values);
+  for (int i = 0; i < params.dims; ++i)
+    values[i] = src[i];
   }
 
   template <typename Point>

@@ -25,12 +25,11 @@ std::pair<std::pair<parlay::sequence<std::pair<indexType, typename Point::distan
                     parlay::sequence<std::pair<indexType, typename Point::distanceType>>>,
           size_t>
 filtered_beam_search(const GT &G,
-                     const Point p,  const PointRange &Points,
-                     const QPoint qp, const QPointRange &Q_Points,
+                     const Point &p,  const PointRange &Points,
+                     const QPoint &qp, const QPointRange &Q_Points,
                      const parlay::sequence<indexType> starting_points,
                      const QueryParams &QP,
-                     bool use_filtering = false
-                     ) {
+                     bool use_filtering = false) {
   using dtype = typename Point::distanceType;
   using id_dist = std::pair<indexType, dtype>;
   int beamSize = QP.beamSize;
@@ -160,7 +159,7 @@ filtered_beam_search(const GT &G,
     // furthest distance in current frontier (if full).
     distanceType cutoff = (frontier_full
                            ? frontier[frontier.size() - 1].second
-                           : (distanceType)std::numeric_limits<int>::max());
+                           : (distanceType)std::numeric_limits<distanceType>::max());
     for (auto a : filtered) {
       distanceType dist = Points[a].distance(p);
       full_dist_cmps++;

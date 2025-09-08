@@ -46,6 +46,7 @@ cc_library(
         "@parlaylib//parlay/internal:file_map",
         ":parse_results",
         ":types",
+        ":NSGDist",
     ],
 )
 
@@ -155,6 +156,15 @@ cc_library(
         "@parlaylib//parlay/internal:file_map",
         ":types",
         ":mips_point",
+    ],
+)
+
+cc_library(
+    name = "NSGDist",
+    hdrs = ["NSGDist.h"],
+    deps = [
+        "@parlaylib//parlay:parallel",
+        "@parlaylib//parlay:primitives",
     ],
 )
 
