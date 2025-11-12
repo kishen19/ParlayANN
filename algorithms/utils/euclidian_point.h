@@ -111,6 +111,7 @@ struct Euclidian_Point {
   static bool is_metric() { return true; }
   T operator[](long i) const { return *(values + i); }
   T &operator[](long i) { return *(values + i); }
+  int get_dims() const { return params.dims; }
 
   float distance(const Euclidian_Point &x) const {
     return euclidian_distance(this->values, x.values, params.dims);
